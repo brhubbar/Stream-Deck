@@ -1,0 +1,3 @@
+[submodule "submodules/Screw-Boss-OpenSCAD"]
+	path = submodules/Screw-Boss-OpenSCAD
+	url = https://github.com/brhubbar/Screw-Boss-OpenSCAD.git
