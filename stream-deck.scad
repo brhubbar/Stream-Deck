@@ -29,46 +29,40 @@
 //
 // brhubbar / v0.0.1
 
+include <submodules/Screw-Boss-OpenSCAD/src/screwBoss.scad>
+include <lid.scad>
+include <base.scad>
 
-// Lid
-// The lid is a filleted rectangular prism, printed face down. It has outer
-// dimensions:
-//    width -- when assembled, this would run horizontally in front of you.
-//             it's defined here along the x-axis.
-//    depth -- when assembled, this would run "vertically" away from you.
-//             it's defined here along the y-axis.
-//    height -- this is the thickness of the face, defined on the z-axis.
-lid_w = 170;
-lid_d = 80;
+// Printing layer height (MUST set this do get good bridging).
+layerHeight = 0.2;
+
+// Screw dimensions should be consistent amongst all three bodies.
+// M3 Screw dimensions.
+M3_headD = 5.5;
+M3_headH = 3;
+M3_d = 3;
+
+screw_inset = 6;
+
+// Decoration parameters - should be kept consistent.
+fillet_r = 4.7;
+chamfer = 2;
+
+// Body major dimensions must be consistent.
+w = 170;
+d = 80;
+
+
 lid_h = 8;
-lid_fillet_r = 4.7;
 
-// To fillet efficiently (in a single sum) some pre-algebra is required to
-// modify some dimensions. This fillet is gonna be done with a half-sphere,
-// leaving the bottom (top, since the face is on the plate) with hard edges.
-// See https://github.com/brhubbar/Screw-Boss-OpenSCAD/blob/main/examples/Minkowski%20Sandbox.scad
-// if you're not sure what I'm talking about.
-// In essence, each dimension is reduced by the dimension of the shaping
-// object in that same axis.
-lid_dim = [lid_w - 2*lid_fillet_r,  // Full circle
-           lid_d - 2*lid_fillet_r,  // Full circle
-           lid_h - 1*lid_fillet_r]; // Half circle
-let(r = lid_fillet_r) { // temporarliy shorten the name of lid_fillet_r
-  minkowski() {
-    // Generate the shrunk down lid. Offset it so that the result is cornered
-    // at the origin.
-    translate([r, r, r]) cube(lid_dim);
-
-    // Add the sphere. the round side needs to face down.
-    rotate([180, 0, 0]) half_sphere(lid_fillet_r);
-  }
-}
+translate([0, 0, 50]) rotate([200, 0, 0])
+lid(w=w, d=d, h=lid_h, layerHeight=layerHeight, fillet=fillet_r,
+  chamfer=chamfer, screw_D=M3_headD, screw_H=M3_headH, screw_d=M3_d,
+  screw_i=screw_inset);
 
 
-module half_sphere(r) {
-  // Generate a half-sphere for filleting.
-  difference() {  // Cut away the bottom half of the sphere.
-    sphere(r=r);
-    translate([-r, -r, -2*r]) cube(2*r);
-  }
-}
+shell = 2.4;
+base_h = 4.5;
+
+base(w=w, d=d, h=base_h, layerHeight=layerHeight, fillet=fillet_r, shell=shell,
+            screw_D=M3_headD, screw_H=M3_headH, screw_d=M3_d, screw_i=screw_inset);
