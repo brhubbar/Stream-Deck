@@ -10,6 +10,9 @@ This project is under development.
 # To Do
 
 - [ ] Duplicate MisteR_ofcl's design in OpenSCAD.
+    - [ ] Lid
+    - [x] Base
+    - [ ] Body
     - Build in flexibility/extensibility
     - Emphasis on code readability
     - Build each component into a separate module
@@ -17,3 +20,9 @@ This project is under development.
       buttons, faders, and knobs.
     - Resize accordingly
 - [ ] Allow rearrangement of said zones. 
+
+# Renders
+
+![Render of the completed base](./img/Base%20v01.png)
+
+![Render of the lid, cutouts not implemented yet](./img/Lid%20v01.png)
